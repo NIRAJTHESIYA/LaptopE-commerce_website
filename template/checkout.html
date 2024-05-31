@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Page</title>
+    <!-- font awesome cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+    <!-- bootsrap cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css">
+
+    <!-- iconscout cdn link -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <!-- custome css link -->
+    <link rel="stylesheet" href="{% static '/css/checkout.css' %}">
+
+    <link rel="stylesheet" href="{% static '/css/alertify.min.css' %}">
+</head>
+
+<body>
+    <!-- header section starts  -->
+
+    <header class="header">
+
+        <a href="#" class="logo"> <i class="fas fa"></i>LaptopNest</a>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="#">Laptops </a>
+                    <ul>
+                        <li><a href="{% url 'allproduct' %}">View all Laptop</a></li>
+                        <li><a href="#">Laptop </a>
+                            <ul>
+                                {% for item in brand1 %}
+                                <li><a href="{% url 'productCat' item.idbrand %}">{{item.brand_name}}</a></li>
+                                {% endfor %} 
+                            </ul>
+                        </li>
+                        <!-- <li><a href="#">Accessories +</a>
+                            <ul>
+                                {% for item in accessories %}
+                                <li><a href="{% url 'accesoriesCat' item.idaccesories %}">{{item.accesories_name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li> -->
+                    </ul>
+                </li>
+                <li><a href="{% url 'findstore' %}">Find Store</a></li>
+                <!-- <li><a href="#">Contact</a></li> -->
+                <li><a href="{% url 'aboutuspage' %}">About</a></li>
+                {% if cuser %}
+                <li><a href="#">{{cuser}}</a>
+                    <ul>
+                        <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                        <li><a href="{% url 'c_password' %}">Reset Password</a></li>
+                        <li><a href="{% url 'my_orders' %}">Orders</a></li>
+                        <li><a href="{% url 'logout' %}">LogOut</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                {% comment %} <li><a href="{% url 'login' %}">Login</a></li> {% endcomment %}
+                {% endif %}
+        </nav>
+
+        <div class="icons">
+            {% comment %} <div id="menu-btn" class="fas fa-bars"></div> {% endcomment %}
+            {% comment %} {% if cuser %} {% endcomment %}
+            <a href="{% url 'cart' %}" class="fas fa-shopping-cart"></a>
+            <a href="{% url 'wishlist' %}" class="fas fa-heart"></a>
+
+            {% comment %} {% else %} {% endcomment %}
+            {% comment %} {% endif %} {% endcomment %}
+        </div>
+
+        <!-- <form action="" class="search-form">
+            <input type="search" name="" placeholder="search here..." id="search-box">
+            <label for="search-box" class="fas fa-search"></label>
+        </form> -->
+
+    </header>
+
+    <!-- header section ends -->
+
+    <div class="container mt-5">
+        <form action="{% url 'place-order' %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-7" style="padding-top: 65px;">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h1>Basic Details</h1>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6 mt-3">
+                                    {% if current_user.user_fullname %}
+                                    <label style="font-size: 2rem;font-weight: bolder;">Full Name</label>
+                                    <input type="text" class="form-control" name="fname" placeholder="Full Name"
+                                        style="font-size: 1.5rem; padding: 20px 5px 20px 5px;"
+                                        value="{{current_user.user_fullname}}" required>
+                                    {% else %}
+                                    <label style="font-size: 2rem;font-weight: bolder;">Full Name</label>
+                                    <input type="text" class="form-control" name="fname" placeholder="First Name"
+                                        style="font-size: 1.5rem; padding: 20px 5px 20px 5px;" required>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mt-4">
+                                    {% if current_user.user_email %}
+                                    <label style="font-size: 2rem;font-weight: bolder;">Email</label>
+                                    <input type="email" class="form-control" name="email" placeholder="Email"
+                                        style="font-size: 1.5rem; padding: 20px 5px 20px 5px;"
+                                        value="{{current_user.user_email}}" required>
+                                    {% else %}
+                                    <label style="font-size: 2rem;font-weight: bolder;">Email</label>
+                                    <input type="email" class="form-control" name="email" placeholder="Email"
+                                        style="font-size: 1.5rem; padding: 20px 5px 20px 5px;" required>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mt-4">
+                                    {% if current_user.user_mobile %}
+                                    <label style="font-size: 2rem;font-weight: bolder;">Phone no</label>
+                                    <input type="number" class="form-control" name="mobile" placeholder="Mobile"
+                                        style="font-size: 1.5rem; padding: 20px 5px 20px 5px;"
+                                        value="{{current_user.user_mobile}}"
+                                        onkeypress="if(this.value.length == 10) return false;" required>
+                                    {% else %}
+                                    <label style="font-size: 2rem;font-weight: bolder;">Phone no</label>
+                                    <input type="number" class="form-control" name="mobile" placeholder="Mobile"
+                                        style="font-size: 1.5rem; padding: 20px 5px 20px 5px;"
+                                        pattern="[7-9]{1}[0-9]{9}"
+                                        onkeypress="if(this.value.length == 10) return false;" required>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-12 mt-4">
+                                    <label style="font-size: 2rem;font-weight: bolder;">Address</label>
+                                    <textarea class="form-control" name="address" placeholder="Address"
+                                        style="font-size: 1.5rem;" required></textarea>
+                                </div>
+                                <div class="col-md-6 mt-4">
+                                    <label style="font-size: 2rem;font-weight: bolder;" for="city">City</label><br />
+                                    <select name="city" style="font-size: 1.5rem;" class="form-control" id="cityd"
+                                        required>
+                                        {% for c in city %}
+                                        <option value="{{c.city_name}}">{{c.city_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mt-4" style="margin-bottom: 20px;">
+                                    <label style="font-size: 2rem;font-weight: bolder;" for="area">Area</label><br />
+                                    <select name="area1" style="font-size: 1.5rem;" class="form-control" id="aread"
+                                        required>
+                                        {% for a in area %}
+                                        <option value="{{a.area_name}}">{{a.area_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mt-4" style="margin-bottom: 20px;">
+                                    <label style="font-size: 2rem;font-weight: bolder;">Pincode</label>
+                                    <input type="number" class="form-control" name="pincode" placeholder="pincode"
+                                        style="font-size: 1.5rem; padding: 20px 5px 20px 5px;"
+                                        onkeypress="if(this.value.length == 6) return false;" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5" style="padding-top: 65px;">
+                    <div class="card shadow">
+                        <div class="card-body card-data">
+                            <h1>Order Summary</h1>
+                            <hr>
+                            {% if cartproduct %}
+                            <table class="table table-stripeds table-bordered">
+                                <thead>
+                                    <tr style="font-size: 1.5rem;">
+                                        <th>Name</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in cartproduct %}
+                                    <tr style="font-size: 1.5rem;">
+                                        <td>
+                                            <img src="{{product.product.product_image.url}}" alt="myImage" height="50px"
+                                                width="50px" class="mr-2">
+                                            {{product.product.product_name}}
+                                        </td>
+                                        <td>{{product.product_qty}}</td>
+                                        <td>{{product.product.price}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <hr>
+                            <h3>Cart Total
+                                <span class="float-right"> Rs. {{total_price}}</span>
+                            </h3>
+                            <h3 class="dcharges">Delivery Charge
+                                <span class="float-right"> + Rs. <span class="charges">{{delArea}}</span></span>
+                            </h3>
+                            <hr>
+                            <h3 class="grandTotal1">Total
+                                <span class="float-right"> Rs. <span class="grandTotal2">{{grandTotal}}</span></span>
+                            </h3>
+                            <input type="hidden" name="payment_mode" value="COD">
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-success w-100 mt-3"
+                                    style="font-size: 1.5rem; padding: 10px 0 10px 0;">COD | Place Order</button>
+                                <div id="paypal-button-container"></div>
+
+                                {% comment %} <button type="button" class="btn btn-primary w-100 mt-3 payWithRazorpay"
+                                    style="font-size: 1.5rem; padding: 10px 0 10px 0;">Pay With Razorpay</button> {%
+                                endcomment %}
+                                {% comment %} <div id="paypal-button-container"></div> {% endcomment %}
+                            </div>
+                            {% else %}
+                            <h3>Your cart is empty</h3>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="{% static '/js/jquery-3.6.3.min.js' %}"></script>
+    <script src="{% static '/js/alertify.min.js' %}"></script>
+    <script src="{% static '/js/checkout.js' %}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=Aaaeul_MQSiTamRcdUrM8TqAMtUBtnsxRyaywiMwURklTTZaee0eQXSGcQdL0aGkLLK7qrfGNCJjx9IN&currency=USD"></script>
+    <script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+            locale: 'it_IT',
+            style: {
+                color: 'gold',
+                shape: 'rect',
+                layout: 'vertical',
+                label: 'pay'
+            },
+    
+            onClick : function(data, actions){
+                //validation here
+                var fname = $("[name='fname']").val();
+                var email = $("[name='email']").val();
+                var phone = $("[name='mobile']").val();
+                var address = $("[name='address']").val();
+                var city = $('#cityd :selected').text();
+                var area = $('#aread').val();
+                var pincode = $("[name='pincode']").val();
+                var token = $("[name='csrfmiddlewaretoken']").val();
+    
+                if((fname == "" || fname == null) || (email == "" || email == null) || (phone == "" || phone == null) || (address == "" || address == null) || (pincode == "" || pincode == null)){
+                    swal("Alert!","All fields are mandatory!","error")
+                    return false
+                }
+                else{
+                    return true
+                }
+            },
+    
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '{{ grand_total_inr | stringformat:'d' }}'
+                        }
+                    }]
+                });
+            },
+    
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                    // Successful capture! For demo purposes:
+                    //console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                    //var transaction = orderData.purchase_units[0].payments.captures[0];
+                    //alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+                    var fname = $("[name='fname']").val();
+                    var email = $("[name='email']").val();
+                    var phone = $("[name='mobile']").val();
+                    var address = $("[name='address']").val();
+                    var city = $('#cityd :selected').text();
+                    var area = $('#aread').val();
+                    var pincode = $("[name='pincode']").val();
+                    var token = $("[name='csrfmiddlewaretoken']").val();
+                    data = {
+                        "fname":fname,
+                        "email":email,
+                        "phone":phone,
+                        "address":address,
+                        "city":city,
+                        "area1":area,
+                        "pincode":pincode,
+                        "payment_mode":"Paid by PayPal",
+                        "payment_id": orderData.id,
+                        csrfmiddlewaretoken: token
+                    }
+                    $.ajax({
+                        method: "POST",
+                        url: "/place-order",
+                        data: data,
+                        success: function (response) {
+                            swal("Congratulations!", response.status , "success").then((value) => {
+                                window.location.href = '/place-order'
+                            });
+                        }
+                    });
+    
+                    // Replace the above to show a success message within this page, e.g.
+                    // const element = document.getElementById('paypal-button-container');
+                    // element.innerHTML = '';
+                    // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                    // Or go to another URL:  actions.redirect('thank_you.html');
+                });
+            }
+    
+    
+        }).render('#paypal-button-container');
+    </script>
+    <script>
+        alertify.set('notifier', 'position', 'top-right');
+        {% for msg in messages %}
+        {% if msg.tags == 'success' %}
+        alertify.success('{{msg}}');
+        {% else %}
+        alertify.error('{{msg}}');
+        {% endif %}
+        {% endfor %}
+    </script>
+</body>
+
+</html>

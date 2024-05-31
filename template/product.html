@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Page</title>
+
+    <!--Custom css link-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/product.css' %}">
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="stylesheet" href="https://kit.fontawesome.com/c5d41a9bdf.css" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+
+    <header class="header">
+        <a href="#" class="logo"><i class="fas fa-laptop"></i>LaptopNest</a>
+        <form action="" class="search-form">
+            {% csrf_token %}
+            <input type="text" id="search-box" name="q" placeholder="search here..." value="{{request.GET.q}}">
+            <button title="search"><i class="fas fa-search"
+                    style="background: white;font-size: 2rem;padding-right: 12px;"></i></button>
+
+        </form>
+        <div class="icons">
+            <div id="search-btn" class="fas fa-search"></div>
+            <i class="fas fa-home">Home</i>
+            <a href="{% url 'home' %}" class="logo"> <i class=" fas fa-home" style="font-size: 3rem;"></i></a>
+        </div>
+        <!-- <button title="button"><i class="fas fa-home" style="font-size: 2rem;padding-right: 12px;">
+    <a href="{% url 'home' %}">
+    </i></i></button> -->
+    </header>
+
+
+
+    <section class="shop" id="shop">
+        <div class="container">
+
+            {% for object in object_list %}
+            <div class="box">
+                <img src="{{object.product_image.url}}" style="width:200px; height:200px;">
+                <h4>{{object.product_name}}</h4>
+                <h5>Price : Rs.{{object.price}}</h5>
+                <div class="cart" style="margin:10px 0 10px 0;">
+                    <a href="{% url 'productview' object.idproduct %}"
+                        style="background: black; color: white; padding: 10px 12px; font-size: medium;">View</a>
+                </div>
+            </div>
+            {% empty %}
+            <h2>No item found for "{{request.GET.q}}"! <br><br>
+                Suggestions : <br><br>
+                <ul style="line-height: 1.5;">
+                    <li>Make sure that your word are correct!</li>
+                    <li>Refine your search!</li>
+                    <li>Try other keywords!</li>
+                </ul>
+            </h2>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!--custom js link
+    <script src="js/script.js"></script> -->
+    <script>
+        let searchForm = document.querySelector('.search-form')
+
+        document.querySelector('#search-btn').onclick = () => {
+            searchForm.classList.toggle('active')
+        }
+
+        window.onscroll = () => {
+            searchForm.classList.remove('active')
+        }
+
+    </script>
+
+</body>
+
+</html>

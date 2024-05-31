@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accessories  product Page</title>
+
+    <!--Custom css link-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/accessoriesProduct.css' %}">
+
+    <link rel="stylesheet" href="https://kit.fontawesome.com/c5d41a9bdf.css" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <section class="shop" id="shop">
+        <div class="container">
+            {% if accProductData %}
+            {% for item in accProductData %}
+            <div class="box">
+                <img src="{{item.accesories_image.url}}" style="width:200px; height:200px;">
+                <h4>{{item.accesories_name}}</h4>
+                <h5>Price : Rs.{{item.price}}</h5>
+                <div class="cart" style="margin:10px 0 10px 0;">
+                    <a href="{% url 'accessoriesProductview' item.idaccesories %}" style="background: black; color: white; padding: 10px 12px;">View</a>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+
+    <!--custom js link
+    <script src="js/script.js"></script> -->
+
+</body>
+
+</html>

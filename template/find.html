@@ -1,0 +1,97 @@
+<div class="row">
+
+            <!-- <form action="">
+                <h3>get in touch</h3>
+                <div class="inputBox">
+                    <input type="text" placeholder="your name">
+                    <input type="email" placeholder="your email">
+                </div>
+                <div class="inputBox">
+                    <input type="number" placeholder="your number">
+                    <input type="text" placeholder="your subject">
+                </div>
+                <textarea placeholder="your message" cols="30" rows="10"></textarea>
+                <input type="submit" value="send message" class="btn">
+            </form> -->
+
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30123.962102556765!2d72.50345417866014!3d23.035688893290907!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84f323342fd1%3A0xc99f03b075a89387!2sLenovo%20Exclusive%20Store%20-%20Haripriya%20Computers%20-%20Navrangpura!5e0!3m2!1sen!2sin!4v1677438462256!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="true" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+
+
+        <html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'css/about_us.css' %}">
+</head>
+
+<body>
+ <!-- header section starts  -->
+
+ <header class="header">
+
+    <a href="#" class="logo"> <i class="fas fa"></i>LaptopNest</a>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#">Laptops </a>
+                <ul>
+                    <li><a href="{% url 'allproduct' %}">View all Laptop</a></li>
+                    <li><a href="#">Laptop </a>
+                        <ul>
+                            {% for item in brand1 %}
+                            <li><a href="{% url 'productCat' item.idbrand %}">{{item.brand_name}}</a></li>
+                            {% endfor %} 
+                        </ul>
+                    </li>
+                    <!-- <li><a href="#">Accessories +</a>
+                        <ul>
+                            {% for item in accessories %}
+                            <li><a href="{% url 'accesoriesCat' item.idaccesories %}">{{item.accesories_name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li> -->
+                </ul>
+            </li>
+            <li><a href="{% url 'findstore' %}">Find Store</a></li>
+            <!-- <li><a href="#">Contact</a></li> -->
+            <li><a href="{% url 'aboutuspage' %}">About</a></li>
+            {% if cuser %}
+            <li><a href="#">{{cuser}}</a>
+                <ul>
+                    <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                    <li><a href="{% url 'c_password' %}">Reset Password</a></li>
+                    <li><a href="{% url 'my_orders' %}">Orders</a></li>
+                    <li><a href="{% url 'logout' %}">LogOut</a></li>
+                </ul>
+            </li>
+            {% else %}
+            {% comment %} <li><a href="{% url 'login' %}">Login</a></li> {% endcomment %}
+            {% endif %}
+    </nav>
+
+    <div class="icons">
+        {% comment %} <div id="menu-btn" class="fas fa-bars"></div> {% endcomment %}
+        {% comment %} {% if cuser %} {% endcomment %}
+        <a href="{% url 'cart' %}" class="fas fa-shopping-cart"></a>
+        <a href="{% url 'wishlist' %}" class="fas fa-heart"></a>
+
+        {% comment %} {% else %} {% endcomment %}
+        {% comment %} {% endif %} {% endcomment %}
+    </div>
+
+    <!-- <form action="" class="search-form">
+        <input type="search" name="" placeholder="search here..." id="search-box">
+        <label for="search-box" class="fas fa-search"></label>
+    </form> -->
+
+</header>
+
+<!-- header section ends -->
+
+</body>
+</html>

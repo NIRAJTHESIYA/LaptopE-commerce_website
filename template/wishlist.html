@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist Page</title>
+    <!-- font awesome cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+    <!-- bootsrap cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css">
+
+    <!-- iconscout cdn link -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <!-- custome css link -->
+    <link rel="stylesheet" href="{% static '/css/cart.css' %}">
+
+    <link rel="stylesheet" href="{% static '/css/alertify.min.css' %}">
+</head>
+
+<body>
+
+    <!-- header section starts  -->
+
+ <header class="header">
+
+    <a href="#" class="logo"> <i class="fas fa"></i>LaptopNest</a>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#">Laptops </a>
+                <ul>
+                    <li><a href="{% url 'allproduct' %}">View all Laptop</a></li>
+                    <li><a href="#">Laptop </a>
+                        <ul>
+                            {% for item in brand1 %}
+                            <li><a href="{% url 'productCat' item.idbrand %}">{{item.brand_name}}</a></li>
+                            {% endfor %} 
+                        </ul>
+                    </li>
+                    <!-- <li><a href="#">Accessories +</a>
+                        <ul>
+                            {% for item in accessories %}
+                            <li><a href="{% url 'accesoriesCat' item.idaccesories %}">{{item.accesories_name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li> -->
+                </ul>
+            </li>
+            <li><a href="{% url 'findstore' %}">Find Store</a></li>
+            <!-- <li><a href="#">Contact</a></li> -->
+            <li><a href="{% url 'aboutuspage' %}">About</a></li>
+            {% if cuser %}
+            <li><a href="#">{{cuser}}</a>
+                <ul>
+                    <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                    <li><a href="{% url 'c_password' %}">Reset Password</a></li>
+                    <li><a href="{% url 'my_orders' %}">Orders</a></li>
+                    <li><a href="{% url 'logout' %}">LogOut</a></li>
+                </ul>
+            </li>
+            {% else %}
+            {% comment %} <li><a href="{% url 'login' %}">Login</a></li> {% endcomment %}
+            {% endif %}
+    </nav>
+
+    <div class="icons">
+        {% comment %} <div id="menu-btn" class="fas fa-bars"></div> {% endcomment %}
+        {% comment %} {% if cuser %} {% endcomment %}
+        <a href="{% url 'cart' %}" class="fas fa-shopping-cart"></a>
+        <a href="{% url 'wishlist' %}" class="fas fa-heart"></a>
+
+        {% comment %} {% else %} {% endcomment %}
+        {% comment %} {% endif %} {% endcomment %}
+    </div>
+
+    <!-- <form action="" class="search-form">
+        <input type="search" name="" placeholder="search here..." id="search-box">
+        <label for="search-box" class="fas fa-search"></label>
+    </form> -->
+
+</header>
+
+<!-- header section ends -->
+
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card shadow"  style="padding-top: 65px;">
+                        <div class="card-body wishlistdata">
+                            {% if wishlist1 %}
+                            {% for wishlistproduct in wishlist1 %}
+                            <div class="row pro_data">
+                                <div class="col-md-2 my-auto">
+                                    <img src="{{wishlistproduct.product.product_image.url}}" alt="Image here"
+                                        height="90px" width="90px">
+                                </div>
+                                <div class="col-md-3 my-auto">
+                                    <h3>{{wishlistproduct.product.product_name}}</h3>
+                                </div>
+                                <div class="col-md-2 my-auto">
+                                    <h3>Rs. {{wishlistproduct.product.price}}</h3>
+                                </div>
+                                <div class="col-md-3 my-auto">
+                                    <input type="hidden" class="product_id"
+                                        value="{{wishlistproduct.product.idproduct}}">
+                                    {% csrf_token %}
+                                    <a href="{% url 'productview' wishlistproduct.product.idproduct  %}"
+                                        class="btn btn-success"
+                                        style="font-size: 1.5rem; position: relative; top: 8px;">View product</a>
+                                </div>
+                                <div class="col-md-2 my-auto my-data">
+                                    <button class="btn btn-danger delete-wishlist-product"
+                                        style="font-size: 1.5rem; position: relative; top: 8px;"><i
+                                            class="fa fa-trash"></i> Remove</button>
+                                </div>
+                            </div>
+                            <hr>
+                            {% endfor %}
+                            {% else %}
+                            <h1>Your wishlist is empty!</h1>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static '/js/jquery-3.6.3.min.js' %}"></script>
+    <script src="{% static '/js/alertify.min.js' %}"></script>
+    <script src="{% static '/js/incre.js' %}"></script>
+</body>
+
+</html>

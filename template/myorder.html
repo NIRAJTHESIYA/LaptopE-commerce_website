@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Order Page</title>
+    <!-- font awesome cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+    <!-- bootsrap cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css">
+
+    <!-- iconscout cdn link -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <!-- custome css link -->
+    <link rel="stylesheet" href="{% static '/css/myorder.css' %}">
+
+    <link rel="stylesheet" href="{% static '/css/alertify.min.css' %}">
+</head>
+
+<body>
+    <!-- header section starts  -->
+
+     <header class="header">
+
+        <a href="#" class="logo"> <i class="fas fa"></i>LaptopNest</a>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="#">Laptops </a>
+                    <ul>
+                        <li><a href="{% url 'allproduct' %}">View all Laptop</a></li>
+                        <li><a href="#">Laptop </a>
+                            <ul>
+                                {% for item in brand1 %}
+                                <li><a href="{% url 'productCat' item.idbrand %}">{{item.brand_name}}</a></li>
+                                {% endfor %} 
+                            </ul>
+                        </li>
+                        <!-- <li><a href="#">Accessories +</a>
+                            <ul>
+                                {% for item in accessories %}
+                                <li><a href="{% url 'accesoriesCat' item.idaccesories %}">{{item.accesories_name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li> -->
+                    </ul>
+                </li>
+                <li><a href="{% url 'findstore' %}">Find Store</a></li>
+                <!-- <li><a href="#">Contact</a></li> -->
+                <li><a href="{% url 'aboutuspage' %}">About</a></li>
+                {% if cuser %}
+                <li><a href="#">{{cuser}}</a>
+                    <ul>
+                        <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                        <li><a href="{% url 'c_password' %}">Reset Password</a></li>
+                        <li><a href="{% url 'my_orders' %}">Orders</a></li>
+                        <li><a href="{% url 'logout' %}">LogOut</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                {% comment %} <li><a href="{% url 'login' %}">Login</a></li> {% endcomment %}
+                {% endif %}
+        </nav>
+
+        <div class="icons">
+            {% comment %} <div id="menu-btn" class="fas fa-bars"></div> {% endcomment %}
+            {% comment %} {% if cuser %} {% endcomment %}
+            <a href="{% url 'cart' %}" class="fas fa-shopping-cart"></a>
+            <a href="{% url 'wishlist' %}" class="fas fa-heart"></a>
+
+            {% comment %} {% else %} {% endcomment %}
+            {% comment %} {% endif %} {% endcomment %}
+        </div>
+
+        <!-- <form action="" class="search-form">
+            <input type="search" name="" placeholder="search here..." id="search-box">
+            <label for="search-box" class="fas fa-search"></label>
+        </form> -->
+
+    </header>
+
+    <!-- header section ends -->
+
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-12" style="padding-top: 65px;">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h1>My Orders</h1>
+                    </div>
+                    <div class="card-body card-data">
+                        {% if order %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="font-weight: bolder; font-size: 1.8rem;">Order Placed</th>
+                                    {% comment %} <th style="font-weight: bolder; font-size: 1.8rem;">Tracking Number</th> {% endcomment %}
+                                    <th style="font-weight: bolder; font-size: 1.8rem;">Total Price</th>
+                                    <th style="font-weight: bolder; font-size: 1.8rem;">Status</th>
+                                    <th style="font-weight: bolder; font-size: 1.8rem;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in order %}
+                                <tr class="product_data">
+                                    {% csrf_token %}
+                                    <input type="hidden" class="order_tracking_no" value="{{product.tracking_no}}">
+                                    <td style="font-weight: 500; font-size: 1.5rem;">{{product.created_at}}</td>
+                                    {% comment %} <td style="font-weight: 500; font-size: 1.5rem;">{{product.tracking_no}}</td> {% endcomment %}
+                                    <td style="font-weight: 500; font-size: 1.5rem;">{{product.total_amount}}</td>
+                                    <td style="font-weight: 500; font-size: 1.5rem;">{{product.order_status}}</td>
+                                    <td>
+                                        {% if product.is_cancel_order == 0%}
+                                        <a href="{% url 'view-order' product.tracking_no %}"
+                                            class="btn btn-primary mr-3"
+                                            style="font-weight: bolder; font-size: 1.5rem;">View</a>
+                                        {% comment %} <a href="{% url 'orderInvoice' product.tracking_no %}"
+                                            class="btn btn-primary mr-3"
+                                            style="font-weight: bolder; font-size: 1.5rem;">Invoice</a> {% endcomment %}
+                                        {% comment %} <button class="btn btn-danger delete-order"
+                                            style="font-size: 1.5rem;">Cancel</button> {% endcomment %}
+                                        {% else %}
+                                        <h4>Cancelled</h4>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            {% else %}
+                            <h3>No Order Placed.!</h3>
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static '/js/alertify.min.js' %}"></script>
+    <script src="{% static '/js/jquery-3.6.3.min.js' %}"></script>
+
+</body>
+
+</html>

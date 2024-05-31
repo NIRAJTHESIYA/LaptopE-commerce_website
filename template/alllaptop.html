@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>All Laptop Page</title>
+
+    <!--Custom css link-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/alllaptop.css' %}">
+
+    <link rel="stylesheet" href="https://kit.fontawesome.com/c5d41a9bdf.css" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+     <!-- header section starts  -->
+
+     <header class="header">
+
+        <a href="#" class="logo"> <i class="fas fa"></i>LaptopNest</a>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="#">Laptops </a>
+                    <ul>
+                        <li><a href="{% url 'allproduct' %}">View all Laptop</a></li>
+                        <li><a href="#">Laptop </a>
+                            <ul>
+                                {% for item in brand1 %}
+                                <li><a href="{% url 'productCat' item.idbrand %}">{{item.brand_name}}</a></li>
+                                {% endfor %} 
+                            </ul>
+                        </li>
+                        <!-- <li><a href="#">Accessories +</a>
+                            <ul>
+                                {% for item in accessories %}
+                                <li><a href="{% url 'accesoriesCat' item.idaccesories %}">{{item.accesories_name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li> -->
+                    </ul>
+                </li>
+                <li><a href="{% url 'findstore' %}">Find Store</a></li>
+                <!-- <li><a href="#">Contact</a></li> -->
+                <li><a href="{% url 'aboutuspage' %}">About</a></li>
+                {% if cuser %}
+                <li><a href="#">{{cuser}}</a>
+                    <ul>
+                        <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                        <li><a href="{% url 'c_password' %}">Reset Password</a></li>
+                        <li><a href="{% url 'my_orders' %}">Orders</a></li>
+                        <li><a href="{% url 'logout' %}">LogOut</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                {% comment %} <li><a href="{% url 'login' %}">Login</a></li> {% endcomment %}
+                {% endif %}
+        </nav>
+
+        <div class="icons">
+            {% comment %} <div id="menu-btn" class="fas fa-bars"></div> {% endcomment %}
+            {% comment %} {% if cuser %} {% endcomment %}
+            <a href="{% url 'cart' %}" class="fas fa-shopping-cart"></a>
+            <a href="{% url 'wishlist' %}" class="fas fa-heart"></a>
+
+            {% comment %} {% else %} {% endcomment %}
+            {% comment %} {% endif %} {% endcomment %}
+        </div>
+
+        <!-- <form action="" class="search-form">
+            <input type="search" name="" placeholder="search here..." id="search-box">
+            <label for="search-box" class="fas fa-search"></label>
+        </form> -->
+
+    </header>
+
+    <!-- header section ends -->
+
+    <section class="shop" id="shop">
+        <div class="container">
+            {% if allproduct %}
+            {% for item in allproduct %}
+            <div class="box">
+                <img src="{{item.product_image.url}}" style="width:200px; height:200px;">
+                <h4>{{item.product_name}}</h4>
+                <h5>Price : Rs.{{item.price}}</h5>
+                <div class="cart" style="margin:10px 0 10px 0;">
+                    <a href="{% url 'productview' item.idproduct %}"
+                        style="background: black; color: white; padding: 10px 12px;">View</a>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+
+    <!--custom js link
+    <script src="js/script.js"></script> -->
+
+</body>
+
+</html>
