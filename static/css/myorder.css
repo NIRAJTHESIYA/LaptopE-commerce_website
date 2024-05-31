@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none !important;
+    transition: all 0.2s linear;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+}
+
+html::-webkit-scrollbar {
+    width: 1rem;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: #ffffff;
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        transform: translateY(-2rem);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        transform: translateY(-2rem);
+        opacity: 0;
+    }
+}
+
+section {
+    padding: 5rem 1rem;
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 4rem;
+    font-size: 3rem;
+    text-transform: capitalize;
+    color: #222;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.1rem 9% 0.1rem 9%;
+    background: #fff;
+  }
+  .header .logo {
+    font-size: 2.5rem;
+    color: #130f40;
+    font-weight: bolder;
+  }
+  .header .logo i {
+    color: #eb4d4b;
+  }
+  .header .navbar ul {
+    list-style: none;
+  }
+  .header .navbar ul li {
+    position: relative;
+    float: left;
+  }
+  .header .navbar ul li a {
+    font-size: 20px;
+    padding: 20px;
+    color: #333;
+    display: block;
+    font-weight: 510;
+  }
+  .header .navbar ul li a:hover {
+    background: #333;
+    color: #fff;
+  }
+  .header .navbar ul li ul {
+    position: absolute;
+    left: 0;
+    width: 200px;
+    background: #fff;
+    display: none;
+  }
+  .header .navbar ul li ul li {
+    width: 100%;
+    border-top: 1px solid rgb(0, 0, 0);
+  }
+  .header .navbar ul li ul li ul {
+    left: 200px;
+    top: 0;
+  }
+  .header .navbar ul li:focus-within > ul, .header .navbar ul li:hover > ul {
+    display: initial;
+  }
+  .header .icons div,
+  .header .icons a {
+    font-size: 2.5rem;
+    margin-left: 2rem;
+  }
+  .header .search-form {
+    position: absolute;
+    top: 115%;
+    right: -105%;
+    width: 50rem;
+    height: 5.5rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    border: 0.1rem solid rgba(0, 0, 0, 0.3);
+  }
+  .header .search-form.active {
+    right: 2rem;
+    transition: 0.4s linear;
+  }
+  .header .search-form input {
+    height: 100%;
+    width: 100%;
+    font-size: 1.6rem;
+    text-transform: none;
+    color: #130f40;
+    padding: 0 1.2rem;
+  }
+  .header .search-form label {
+    font-size: 2.2rem;
+    margin-right: 1.7rem;
+  }
+  
+
+.alertify-notifier .ajs-message {
+    font-size: 16px;
+    color: white;
+}
